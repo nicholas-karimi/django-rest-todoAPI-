@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  webserver:
+    build: 
+      context: .
+    container_name: todo_app
+    command: python manage.py runserver 0.0.0.0:8000
+
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+
+    environment:
+      - DB_HOST=pgdb 
+      - DB_NAME=todo
+      - DB_USER=todo_user
+      - DB_PASS=todo
+
+    depends_on:
+      - pgdb
+
+  pgdb:
+    image: postgres
+    container_name: pgdb
+
+    environment:
+      - DB_HOST=db 
+      - DB_NAME=todo
+      - DB_USER=todo_user
+      - DB_PASS=todo
+
+
